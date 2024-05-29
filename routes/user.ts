@@ -5,7 +5,6 @@ let router = express.Router();
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema<IUser>({
-    user_id: {type: Number, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
     last_login: {type: Number, required: false},
@@ -29,7 +28,7 @@ router.post('/register', async function (req, res) {
         await user.save();
 
         res.status(201).json({
-            user_id: user.user_id,
+            user_id: user.id,
             email: user.email,
             register_date: user.register_date,
         });

@@ -1,6 +1,4 @@
 export interface IRace {
-    // primary
-    race_id: number,
     // foreign
     event_id: number,
     circuit_id: number,
@@ -10,8 +8,6 @@ export interface IRace {
 }
 
 export interface IUser {
-    // primary
-    user_id: number,
     // attributes
     email: string,
     password: string,
@@ -33,23 +29,17 @@ export interface IUserRace {
 }
 
 export interface IEvent {
-    // primary
-    event_id: number,
     // attributes
     name: string,
     number_of_races: number,
 }
 
 export interface IOrganizer {
-    // primary
-    organizer_id: number,
     // attributes
     name: string,
 }
 
 export interface IVehicle {
-    // primary
-    vehicle_id: number,
     // foreign
     class_id: number,
     // attributes
@@ -57,23 +47,17 @@ export interface IVehicle {
 }
 
 export interface IClass {
-    // primary
-    class_id: number,
     // attributes
     name: string,
 }
 
 export interface IGame {
-    // primary
-    game_id: number,
     // attributes
     name: string,
     release_date?: number,
 }
 
 export interface ICircuit {
-    // primary
-    circuit_id: number,
     // attributes
     name: string,
 }

@@ -5,7 +5,6 @@ let router = express.Router();
 import mongoose, { Schema } from "mongoose";
 
 const circuitSchema = new mongoose.Schema<ICircuit>({
-    circuit_id: {type: Number, required: true},
     name: {type: String, required: true},
 });
 
@@ -43,7 +42,7 @@ router.post('/add', async function (req, res) {
         await circuit.save();
 
         res.status(201).json({
-            circuit_id: circuit.circuit_id,
+            circuit_id: circuit.id,
             name: circuit.name
         });
     } catch (err) {
