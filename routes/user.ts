@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema<IUser>({
     register_date: {type: Number, required: true, default: Date.now()},
 });
 
-export const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 router.get('/', function(res) {
     res.json(User.find());
@@ -20,14 +20,19 @@ router.get('/', function(res) {
 
 router.post('/register', async function (req, res) {
     try {
-        const user = new User();
-
-        user.email = req.body.email;
-        user.password = req.body.password;
+        const user = new User({
+            email: req.body.email,
+            password: req.body.password,
+            register_date: Date.now(),
+        });
 
         await user.save();
 
-        res.status(201);
+        res.status(201).json({
+            user_id: user.user_id,
+            email: user.email,
+            register_date: user.register_date,
+        });
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
