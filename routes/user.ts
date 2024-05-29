@@ -1,14 +1,24 @@
-import {IUser} from "../public/types";
+import {IUser, IUserRace} from "../public/types";
 
 let express = require('express');
 let router = express.Router();
 import mongoose, { Schema } from "mongoose";
+
+const userRaceSchema = new mongoose.Schema<IUserRace>({
+    race_id: {type: Number, required: true},
+    vehicle_id: {type: Number, required: true},
+    position_qualifying_overall: {type: Number, required: false},
+    position_race_overall: {type: Number, required: false},
+    position_qualifying_class: {type: Number, required: true},
+    position_race_class: {type: Number, required: true},
+});
 
 const userSchema = new mongoose.Schema<IUser>({
     email: {type: String, required: true},
     password: {type: String, required: true},
     last_login: {type: Number, required: false},
     register_date: {type: Number, required: true, default: Date.now()},
+    races: {type: [userRaceSchema], required: true, default: []}
 });
 
 const User = mongoose.model<IUser>('User', userSchema);
