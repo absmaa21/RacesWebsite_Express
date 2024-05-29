@@ -31,22 +31,12 @@ export interface IEvent {
     // attributes
     name: string,
     number_of_races: number,
-}
-
-export interface IOrganizer {
-    // attributes
-    name: string,
+    organizers: string[],
 }
 
 export interface IVehicle {
-    // foreign
-    class_id: number,
     // attributes
-    name: string,
-}
-
-export interface IClass {
-    // attributes
+    class: string,
     name: string,
 }
 
@@ -59,16 +49,4 @@ export interface IGame {
 export interface ICircuit {
     // attributes
     name: string,
-}
-
-export interface IRaceClass {
-    // primary + foreign
-    race_id: number,
-    class_id: number,
-}
-
-export interface IEventOrganizer {
-    // primary + foreign
-    event_id: number,
-    organizer_id: number,
 }
