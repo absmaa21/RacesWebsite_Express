@@ -13,13 +13,12 @@ export interface IUser {
     password: string,
     last_login?: number,
     register_date: number,
+    races: IUserRace[],
 }
 
 export interface IUserRace {
-    // primary + foreign
-    race_id: number,
-    user_id: number,
     // foreign
+    race_id: number,
     vehicle_id: number,
     // attributes
     position_qualifying_overall: number,
