@@ -36,7 +36,20 @@ router.post('/register', async function (req, res) {
 
 router.post('/login', async function (req, res) {
     try {
-        res.json(User.find(req.body.email, req.body.password));
+        const user = await User.findOne({email: req.body.email});
+
+        if (!user) {
+            return res.status(401).send("Email not found!");
+        }
+
+        if (user.password !== req.body.password) {
+            return res.status(401).send("Invalid password!");
+        }
+
+        user.last_login = Date.now();
+        await user.save();
+
+        res.status(200).json(user);
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
