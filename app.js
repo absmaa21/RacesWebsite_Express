@@ -6,8 +6,15 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+const connectDB = require("./database/database");
+
+connectDB.default();
 
 var app = express();
+
+const cors = require('cors');
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
