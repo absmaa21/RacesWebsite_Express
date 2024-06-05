@@ -23,8 +23,8 @@ export interface IUserRace {
     // attributes
     position_qualifying_overall: number,
     position_race_overall: number,
-    position_qualifying_class: number,
-    position_race_class: number,
+    position_qualifying_class?: number,
+    position_race_class?: number,
 }
 
 export interface IEvent {
