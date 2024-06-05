@@ -19,14 +19,14 @@ interface LoginResponseBody {
   password: string,
   last_login?: number, // unix time stamp
   register_date: number, // unix time stamp
-  races: [{
+  races: {
     race_id: number,
     vehicle_id: number,
     position_qualifying_overall?: number,
     position_race_overall?: number,
     position_qualifying_class: number,
     position_race_class: number
-  }]
+  }[]
 }
 ```
 
@@ -104,20 +104,20 @@ Returned if any users have been found.
 
 ##### Body
 ```ts
-type UsersResponseBody = [{
+type UsersResponseBody = {
   email: string,
   password: string,
   last_login?: number, // unix time stamp
   register_date: number, // unix time stamp
-  races: [{
+  races: {
     race_id: number,
     vehicle_id: number,
     position_qualifying_overall?: number,
     position_race_overall?: number,
     position_qualifying_class: number,
     position_race_class: number
-  }]
-}];
+  }[]
+}[];
 ```
 
 ## /user/:id
@@ -136,14 +136,14 @@ interface UserResponseBody {
   password: string,
   last_login?: number, // unix time stamp
   register_date: number, // unix time stamp
-  races: [{
+  races: {
     race_id: number,
     vehicle_id: number,
     position_qualifying_overall?: number,
     position_race_overall?: number,
     position_qualifying_class: number,
     position_race_class: number
-  }]
+  }[]
 }
 ```
 
