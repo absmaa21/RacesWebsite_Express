@@ -16,6 +16,6 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12"
+    "@types/node": "^20.14.2"
   }
 }
