@@ -1,8 +1,8 @@
 export interface IRace {
     // foreign
-    event_id: number,
-    circuit_id: number,
-    game_id: number,
+    event_id: string,
+    circuit_id: string,
+    game_id: string,
     // attributes
     start_date: number,
 }
@@ -18,8 +18,8 @@ export interface IUser {
 
 export interface IUserRace {
     // foreign
-    race_id: number,
-    vehicle_id: number,
+    race_id: string,
+    vehicle_id: string,
     // attributes
     position_qualifying_overall: number,
     position_race_overall: number,

@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 const ObjectId = require("mongoose").ObjectId
 
 const userRaceSchema = new mongoose.Schema<IUserRace>({
-    race_id: {type: Number, required: true},
-    vehicle_id: {type: Number, required: true},
+    race_id: {type: ObjectId, required: true},
+    vehicle_id: {type: ObjectId, required: true},
     position_qualifying_overall: {type: Number, required: false},
     position_race_overall: {type: Number, required: false},
     position_qualifying_class: {type: Number, required: true},
@@ -25,13 +25,23 @@ const userSchema = new mongoose.Schema<IUser>({
 const User = mongoose.model<IUser>('User', userSchema);
 
 router.get('/', async function(req, res) {
-    const users = await User.find();
-    res.json(users);
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch(e) {
+        res.status(500).json({error: "Internal Server Error"})
+        console.log(e)
+    }
 });
 
 router.get('/:id', async function(req, res) {
-    const user = await User.find(new ObjectId(req.params.id))
-    res.json(user);
+    try {
+        const user = await User.find(new ObjectId(req.params.id))
+        res.json(user);
+    } catch(e) {
+        res.status(500).json({error: "Internal Server Error"})
+        console.log(e)
+    }
 });
 
 router.post('/register', async function (req, res) {
