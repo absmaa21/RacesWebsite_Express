@@ -30,7 +30,6 @@ export interface IUserRace {
 export interface IEvent {
     // attributes
     name: string,
-    number_of_races: number,
     organizers: string[],
 }
 

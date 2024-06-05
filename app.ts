@@ -10,6 +10,9 @@ import connectDB = require("./database/database");
 const userRouter = require('./routes/user');
 const circuitRouter = require('./routes/circuit');
 const vehicleRouter = require('./routes/vehicle');
+const gameRouter = require('./routes/game');
+const eventRouter = require('./routes/event');
+const raceRouter = require('./routes/race');
 
 connectDB.default();
 
@@ -29,6 +32,9 @@ app.use(cors());
 app.use('/user', userRouter);
 app.use('/circuit', circuitRouter);
 app.use('/vehicle', vehicleRouter);
+app.use('/game', gameRouter);
+app.use('/event', eventRouter);
+app.use('/race', raceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
