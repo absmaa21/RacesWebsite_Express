@@ -16,7 +16,7 @@ const Vehicle = mongoose.model<IVehicle>('Vehicle', vehicleSchema);
 router.get('/', async function (res) {
     try {
         const vehicles = await Vehicle.find();
-        res.json(vehicles);
+        return res.json(vehicles);
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
@@ -27,7 +27,7 @@ router.get('/:id', async function (req, res) {
     try {
         const vehicle = await Vehicle.findById(new ObjectId(req.params.id));
         if (!vehicle) {
-            return res.status(404).send("Circuit with id " + req.params.id + " not found!");
+            return res.status(404).send("Vehicle with id " + req.params.id + " not found!");
         }
         res.json(vehicle);
     } catch (err) {
@@ -42,7 +42,7 @@ router.post('/add', async function (req, res) {
     }
 
     if (!req.body.class) {
-        return res.status(400).json({error: 'Body param "class" not found!'})
+        res.status(400).json({error: 'Body param "class" not found!'})
     }
 
     try {
