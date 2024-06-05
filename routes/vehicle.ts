@@ -1,4 +1,4 @@
-import {ICircuit} from "../public/types";
+import {IVehicle} from "../public/types";
 
 let express = require('express');
 let router = express.Router();
@@ -6,16 +6,17 @@ import mongoose from "mongoose";
 
 const ObjectId = require("mongoose").ObjectId
 
-const circuitSchema = new mongoose.Schema<ICircuit>({
+const vehicleSchema = new mongoose.Schema<IVehicle>({
     name: {type: String, required: true},
+    class: {type: String, required: true},
 });
 
-const Circuit = mongoose.model<ICircuit>('Circuit', circuitSchema);
+const Vehicle = mongoose.model<IVehicle>('Vehicle', vehicleSchema);
 
 router.get('/', async function (res) {
     try {
-        const circuits = await Circuit.find();
-        res.json(circuits);
+        const vehicles = await Vehicle.find();
+        res.json(vehicles);
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
@@ -24,11 +25,11 @@ router.get('/', async function (res) {
 
 router.get('/:id', async function (req, res) {
     try {
-        const circuit = await Circuit.findById(new ObjectId(req.params.id));
-        if (!circuit) {
+        const vehicle = await Vehicle.findById(new ObjectId(req.params.id));
+        if (!vehicle) {
             return res.status(404).send("Circuit with id " + req.params.id + " not found!");
         }
-        res.json(circuit);
+        res.json(vehicle);
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
@@ -40,16 +41,22 @@ router.post('/add', async function (req, res) {
         return res.status(400).json({error: 'Body param "name" not found!'})
     }
 
+    if (!req.body.class) {
+        return res.status(400).json({error: 'Body param "class" not found!'})
+    }
+
     try {
-        const circuit = new Circuit({
+        const vehicle = new Vehicle({
             name: req.body.name,
+            class: req.body.class,
         });
 
-        await circuit.save();
+        await vehicle.save();
 
         res.status(201).json({
-            circuit_id: circuit.id,
-            name: circuit.name
+            vehicle_id: vehicle.id,
+            name: vehicle.name,
+            class: vehicle.class
         });
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});

@@ -3,6 +3,7 @@ import {IUser, IUserRace} from "../public/types";
 let express = require('express');
 let router = express.Router();
 import mongoose from "mongoose";
+
 const ObjectId = require("mongoose").ObjectId
 
 const userRaceSchema = new mongoose.Schema<IUserRace>({
@@ -24,31 +25,39 @@ const userSchema = new mongoose.Schema<IUser>({
 
 const User = mongoose.model<IUser>('User', userSchema);
 
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
     try {
         const users = await User.find();
         res.json(users);
-    } catch(e) {
+    } catch (e) {
         res.status(500).json({error: "Internal Server Error"})
         console.log(e)
     }
 });
 
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
     try {
         const user = await User.find(new ObjectId(req.params.id))
         res.json(user);
-    } catch(e) {
+    } catch (e) {
         res.status(500).json({error: "Internal Server Error"})
         console.log(e)
     }
 });
 
 router.post('/register', async function (req, res) {
+    if (!req.body.email) {
+        return res.status(400).json({error: 'Body param "email" not found!'})
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({error: 'Body param "password" not found!'})
+    }
+
     try {
         const testUser = await User.find({email: req.body.email})
 
-        if(testUser) {
+        if (testUser) {
             res.status(409).json({error: "Email already used!"})
             return;
         }
@@ -73,15 +82,23 @@ router.post('/register', async function (req, res) {
 })
 
 router.post('/login', async function (req, res) {
+    if (!req.body.email) {
+        return res.status(400).json({error: 'Body param "email" not found!'})
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({error: 'Body param "password" not found!'})
+    }
+
     try {
         const user = await User.findOne({email: req.body.email});
 
         if (!user) {
-            return res.status(401).send("Email not found!");
+            return res.status(401).json({error: 'Email not found!'});
         }
 
         if (user.password !== req.body.password) {
-            return res.status(401).send("Invalid password!");
+            return res.status(401).json({error: 'Password invalid!.'});
         }
 
         user.last_login = Date.now();
