@@ -9,8 +9,8 @@ export interface IRace {
 
 export interface IUser {
     // attributes
-    email: string,
-    password: string,
+    discordId: string,
+    username: string,
     last_login?: number,
     register_date: number,
     races: IUserRace[],
