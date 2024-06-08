@@ -3,7 +3,6 @@ let router = express.Router();
 const ObjectId = require("mongoose").ObjectId
 const DiscordUser = require("../models/DiscordUser");
 
-
 router.get('/', async function (req, res) {
     try {
         const users = await DiscordUser.find();

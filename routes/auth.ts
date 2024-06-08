@@ -5,17 +5,13 @@ const passport = require('passport');
 router.get('/', passport.authenticate('discord'));
 
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/forbidden'
-}), (req, res) => {
-    res.send(req.user);
-});
+    failureRedirect: process.env.FRONTEND_URL,
+    successRedirect: process.env.FRONTEND_URL,
+}));
 
-router.get('/success', async function (req, res) {
-    res.status(200);
-});
-
-router.get('/forbidden', async function (req, res) {
-    res.status(500);
-});
+router.get('/logout', (req, res) => {
+    if(req.user) req.logout();
+    res.redirect('/');
+})
 
 module.exports = router;

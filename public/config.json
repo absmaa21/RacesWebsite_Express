@@ -1,4 +1,5 @@
 {
+  "frontendUrl": "http://localhost:3000",
   "clientId": "1248298105745575987",
   "clientSecret": "TeJ7MP7WcFMeKWTlta4W3I0opviG8Gyf",
   "port": 3001,

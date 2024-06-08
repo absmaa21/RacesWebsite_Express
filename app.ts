@@ -1,3 +1,4 @@
+require('dotenv').config()
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,7 +12,9 @@ const passport = require('passport');
 const discordStrategy = require('./strategies/discordstrategy');
 
 // Routes
+const loginRoute = require('./routes/login')
 const authRoute = require('./routes/auth')
+const dashboardRoute = require('./routes/dashboard')
 
 const app = express();
 connectDB.default();
@@ -26,18 +29,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
 app.use(session({
   secret: "some random secret",
   cookie: {
     maxAge: 60000 * 60 * 24
   },
-  saveUninitialized: false
+  saveUninitialized: false,
+  name: 'discord.oauth2'
 }))
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/', loginRoute);
 app.use('/auth', authRoute);
+app.use('/dashboard', dashboardRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
