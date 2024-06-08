@@ -15,6 +15,7 @@ const discordStrategy = require('./strategies/discordstrategy');
 const loginRoute = require('./routes/login')
 const authRoute = require('./routes/auth')
 const dashboardRoute = require('./routes/dashboard')
+const userRoute = require('./routes/user')
 
 const app = express();
 connectDB.default();
@@ -47,6 +48,7 @@ app.use(passport.session());
 app.use('/', loginRoute);
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/user', userRoute)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
