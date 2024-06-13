@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 const ObjectId = require("mongoose").ObjectId
 const DiscordUser = require("../models/DiscordUser");
+const passport = require('passport');
 
 router.get('/', async function (req, res) {
     res.json(req.user)

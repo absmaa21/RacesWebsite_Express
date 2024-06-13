@@ -16,7 +16,7 @@ router.get('/logout', (req, res) => {
 
 router.get('/user', (req, res) => {
     console.log(req.user)
-    res.json(req.user)
+    res.json({})
 })
 
 module.exports = router;

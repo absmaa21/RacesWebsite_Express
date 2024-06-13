@@ -1,24 +1,18 @@
 const router = require('express').Router();
 
 function isAuthorized(req, res, next) {
-    if(req.user) {
+    if (req.user) {
         console.log("User is logged in.");
-        res.redirect(process.env.FRONTEND_URL);
-    }
-    else {
+        next();
+    } else {
         console.log("User is not logged in.");
         res.redirect('/auth');
     }
 }
 
-router.get('/', (req, res) => {
-    if(req.user) {
-        console.log("User is logged in.");
-        res.json({ loggedIn: true, redirectUrl: process.env.FRONTEND_URL, lastAuth: Date.now() });
-    } else {
-        console.log("User is not logged in.");
-        res.json({ loggedIn: false, redirectUrl: process.env.FRONTEND_URL + '/login'});
-    }
+router.get('/', isAuthorized, (req, res) => {
+    console.log(req.user.discordId)
+    res.json({loggedIn: true, redirectUrl: process.env.FRONTEND_URL, lastAuth: Date.now()});
 });
 
 module.exports = router;
