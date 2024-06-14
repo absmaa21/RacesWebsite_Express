@@ -11,6 +11,8 @@ export interface IUser {
     // attributes
     email: string,
     password: string,
+    username: string,
+    picture: string,
     last_login?: number,
     register_date: number,
     races: IUserRace[],

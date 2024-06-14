@@ -18,6 +18,8 @@ const userRaceSchema = new mongoose.Schema<IUserRace>({
 const userSchema = new mongoose.Schema<IUser>({
     email: {type: String, required: true},
     password: {type: String, required: true},
+    username: {type: String, required: true},
+    picture: {type: String, required: true},
     last_login: {type: Number, required: false},
     register_date: {type: Number, required: true, default: Date.now()},
     races: {type: [userRaceSchema], required: true, default: []}
@@ -57,7 +59,7 @@ router.post('/register', async function (req, res) {
     try {
         const testUser = await User.find({email: req.body.email})
 
-        if (testUser) {
+        if (testUser.length > 0) {
             res.status(409).json({error: "Email already used!"})
             return;
         }
@@ -65,6 +67,8 @@ router.post('/register', async function (req, res) {
         const user = new User({
             email: req.body.email,
             password: req.body.password,
+            username: req.body.username ?? req.body.email.substring(0, req.body.email.indexOf('@')),
+            picture: req.body.picture ?? 'https://ui-avatars.com/api/?name=' + req.body.email.substring(0, req.body.email.indexOf('@')),
             register_date: Date.now(),
         });
 
@@ -73,6 +77,8 @@ router.post('/register', async function (req, res) {
         res.status(201).json({
             user_id: user.id,
             email: user.email,
+            username: user.username,
+            picture: user.picture,
             register_date: user.register_date,
         });
     } catch (err) {
