@@ -10,7 +10,7 @@ export interface IRace {
 export interface IUser {
     // attributes
     email: string,
-    password: string,
+    password?: string,
     username: string,
     picture: string,
     last_login?: number,
