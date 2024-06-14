@@ -1,0 +1,8 @@
+{
+  "frontendUrl": "http://localhost:3000",
+  "clientId": "1248298105745575987",
+  "clientSecret": "TeJ7MP7WcFMeKWTlta4W3I0opviG8Gyf",
+  "port": 3001,
+  "oAuthUrl": "https://discord.com/oauth2/authorize?client_id=1248298105745575987&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fredirect&scope=identify+guilds",
+  "redirectUrl": "/auth/redirect"
+}

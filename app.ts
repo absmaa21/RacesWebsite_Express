@@ -1,22 +1,24 @@
-import createError = require('http-errors');
-import express = require('express');
-import path = require('path');
-import cookieParser = require('cookie-parser');
-import logger = require('morgan');
+require('dotenv').config()
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-import cors = require('cors');
-import connectDB = require("./database/database");
+const cors = require('cors');
+const connectDB = require("./database/database");
+const session = require('express-session');
+const passport = require('passport');
+const discordStrategy = require('./strategies/discordstrategy');
 
-const userRouter = require('./routes/user');
-const circuitRouter = require('./routes/circuit');
-const vehicleRouter = require('./routes/vehicle');
-const gameRouter = require('./routes/game');
-const eventRouter = require('./routes/event');
-const raceRouter = require('./routes/race');
-
-connectDB.default();
+// Routes
+const loginRoute = require('./routes/login')
+const authRoute = require('./routes/auth')
+const dashboardRoute = require('./routes/dashboard')
+const userRoute = require('./routes/user')
 
 const app = express();
+connectDB.default();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,14 +29,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
 
-app.use('/user', userRouter);
-app.use('/circuit', circuitRouter);
-app.use('/vehicle', vehicleRouter);
-app.use('/game', gameRouter);
-app.use('/event', eventRouter);
-app.use('/race', raceRouter);
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
+app.use(session({
+  secret: "some random secret",
+  cookie: {
+    maxAge: 60000 * 60 * 24
+  },
+  saveUninitialized: false,
+  name: 'discord.oauth2'
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/', loginRoute);
+app.use('/auth', authRoute);
+app.use('/dashboard', dashboardRoute);
+app.use('/user', userRoute)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
