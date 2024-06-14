@@ -7,9 +7,6 @@ const logger = require('morgan');
 
 const cors = require('cors');
 const connectDB = require("./database/database");
-const session = require('express-session');
-const passport = require('passport');
-const discordStrategy = require('./strategies/discordstrategy');
 
 // Routes
 const loginRoute = require('./routes/login')
@@ -30,20 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
-app.use(session({
-  secret: "some random secret",
-  cookie: {
-    maxAge: 60000 * 60 * 24
-  },
-  saveUninitialized: false,
-  name: 'discord.oauth2'
-}))
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(cors());
 
 app.use('/', loginRoute);
 app.use('/auth', authRoute);

@@ -3,6 +3,7 @@ import {IUser, IUserRace} from "../public/types";
 let express = require('express');
 let router = express.Router();
 import mongoose from "mongoose";
+let argon = require('argon2')
 
 const ObjectId = require("mongoose").ObjectId
 
@@ -25,7 +26,7 @@ const userSchema = new mongoose.Schema<IUser>({
     races: {type: [userRaceSchema], required: true, default: []}
 });
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 
 router.get('/', async function (req, res) {
     try {
@@ -64,9 +65,10 @@ router.post('/register', async function (req, res) {
             return;
         }
 
+        const encryptedPassword = await argon.hash(req.body.password)
         const user = new User({
             email: req.body.email,
-            password: req.body.password,
+            password: encryptedPassword,
             username: req.body.username ?? req.body.email.substring(0, req.body.email.indexOf('@')),
             picture: req.body.picture ?? 'https://ui-avatars.com/api/?name=' + req.body.email.substring(0, req.body.email.indexOf('@')),
             register_date: Date.now(),
@@ -103,8 +105,8 @@ router.post('/login', async function (req, res) {
             return res.status(401).json({error: 'Email not found!'});
         }
 
-        if (user.password !== req.body.password) {
-            return res.status(401).json({error: 'Password invalid!.'});
+        if (await argon.verify(user.password, req.body.password)) {
+            return res.status(401).json({error: 'Wrong credentials!'});
         }
 
         user.last_login = Date.now();
