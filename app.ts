@@ -9,10 +9,8 @@ const cors = require('cors');
 const connectDB = require("./database/database");
 
 // Routes
-const loginRoute = require('./routes/login')
-const authRoute = require('./routes/auth')
-const dashboardRoute = require('./routes/dashboard')
 const userRoute = require('./routes/user')
+const raceRoute = require('./routes/races')
 
 const app = express();
 connectDB.default();
@@ -29,10 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 
-app.use('/', loginRoute);
-app.use('/auth', authRoute);
-app.use('/dashboard', dashboardRoute);
-app.use('/user', userRoute)
+app.use('/user', userRoute);
+app.use('/races', raceRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

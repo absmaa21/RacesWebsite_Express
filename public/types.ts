@@ -1,5 +1,5 @@
 export interface IUser {
-    id?: string,
+    id: string,
     email: string,
     password?: string,
     picture: string,
@@ -10,11 +10,12 @@ export interface IUser {
 }
 
 export interface IUserRace {
-    id?: string,
     game: string,
     event: string,
     circuit: string,
     vehicle: string,
+    start_date: number,
+    duration: number,
     position_qualifying_overall: number,
     position_race_overall: number,
     position_qualifying_class?: number,
