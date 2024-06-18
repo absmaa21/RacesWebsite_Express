@@ -2,7 +2,6 @@ let express = require('express');
 let router = express.Router();
 let argon = require('argon2')
 
-const ObjectId = require("mongoose").ObjectId
 import User, {getUserWithoutPassword} from '../models/User'
 
 router.get('/', async function (req, res) {
@@ -17,8 +16,10 @@ router.get('/', async function (req, res) {
 
 router.get('/:id', async function (req, res) {
     try {
-        const user = await User.find(new ObjectId(req.params.id))
-        res.json(user);
+        const user = await User.findById(req.params.id)
+        user.last_login = Date.now();
+        await user.save();
+        res.json(getUserWithoutPassword(user));
     } catch (e) {
         res.status(500).json({error: "Internal Server Error"})
         console.log(e)

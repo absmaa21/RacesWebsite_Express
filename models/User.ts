@@ -32,8 +32,9 @@ export function getUserWithoutPassword(user: any) {
         email: user.email,
         username: user.username,
         picture: user.picture,
+        last_login: user.last_login,
         register_date: user.register_date,
-        races: user.races,
+        num_of_races: user.races.length,
     }
 }
 

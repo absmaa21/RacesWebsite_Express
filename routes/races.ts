@@ -1,16 +1,15 @@
 let express = require('express');
 let router = express.Router();
 
-import User, {getUserWithoutPassword} from '../models/User'
-const ObjectId = require("mongoose").ObjectId
+import User from '../models/User'
 
-router.get('/', async function (req, res) {
+router.get('/:id', async function (req, res) {
     try {
-        const user = await User.findById(new ObjectId(req.body.userId))
+        const user = await User.findById(req.params.id)
         if (!user) {
             return res.status(401).json({error: 'Id not found!'});
         }
-        return res.json(user.get('races'));
+        return res.json(user.races);
     } catch (err) {
         res.status(500).json({error: 'Internal server error.'});
         console.log(err);
